@@ -15,6 +15,12 @@
 		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
 
+	<name>Aplicación de Compra de Productos</name>
+	<description>
+		desarrollada en OpenXava, enfocada en brindar a los clientes una experiencia de compra personalizada. Incluye un módulo de compras para seleccionar productos, gestionar el carrito y procesar transacciones, generando comprobantes digitales. Además, permite registrar perfiles de mascotas con información detallada, lo que optimiza la recomendación de productos según sus características.
+	</description>
+	<url>https://github.com/ChrisJMora/mascotin-sales-application.git</url>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.openxava</groupId>
