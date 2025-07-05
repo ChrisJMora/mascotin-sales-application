@@ -1,11 +1,14 @@
 package com.mascotin.salesapplication.model;
 
+import com.mascotin.salesapplication.catalogue.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.openxava.annotations.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -14,19 +17,22 @@ public class DetalleCompra {
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    private Compra compra;
+    private LocalDate fechaCompra;
 
-    @ManyToOne
-    private Producto producto;
+    @Enumerated(EnumType.STRING)
+    private MetodoPago metodoPago;
 
-    private int cantidad;
+    private String nombreTitular;
+
+    private String datosPago;
+
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
+    private List<ItemCarrito> detalles;
 
     @Money @ReadOnly
-    public BigDecimal getSubtotal() {
-        if (producto == null) return BigDecimal.ZERO;
-        BigDecimal precio = producto.getPrecioVenta()
-                .multiply(BigDecimal.ONE.subtract(producto.getDescuento()));
-        return precio.multiply(new BigDecimal(cantidad));
+    public BigDecimal getTotal() {
+        return detalles == null ? BigDecimal.ZERO : detalles.stream()
+                .map(ItemCarrito::getSubtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

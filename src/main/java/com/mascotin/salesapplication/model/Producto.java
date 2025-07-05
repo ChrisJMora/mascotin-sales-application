@@ -27,7 +27,7 @@ public class Producto {
     private BigDecimal precioVenta;
 
     @Required
-    @DecimalMin("0.00")
+    @DecimalMin(value = "0.00", inclusive = true)
     @DecimalMax("1.00")
     private BigDecimal descuento;
 
