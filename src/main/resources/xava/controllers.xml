@@ -32,5 +32,10 @@ https://github.com/openxava/openxava/blob/master/openxavatest/src/main/resources
     	</action>
 	</controller>    
     -->
-    
+
+    <controller name="Carrito">
+        <action name="Carrito.finalizarCompra"
+                class="com.mascotin.salesapplication.actions.FinalizarCompraAction"
+                mode="detail"/>
+    </controller>
 </controllers>
