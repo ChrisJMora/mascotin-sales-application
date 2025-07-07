@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "ISO-8859-1"?>
+<!DOCTYPE modules SYSTEM "dtds/modules.dtd">
+
+<modules>
+    <module name="Producto">
+        <model name="Producto"/>
+        <access permittedRoles="Cliente"/>
+    </module>
+
+    <module name="PerfilMascota">
+        <model name="PerfilMascota"/>
+        <access permittedRoles="Cliente"/>
+    </module>
+
+    <module name="Carrito">
+        <model name="Carrito"/>
+        <controller name="Carrito"/>
+        <access permittedRoles="Cliente"/>
+    </module>
+
+    <module name="Compra">
+        <model name="Compra"/>
+        <access permittedRoles="Cliente"/>
+    </module>
+</modules>
