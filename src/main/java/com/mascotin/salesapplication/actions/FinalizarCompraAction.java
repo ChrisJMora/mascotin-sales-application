@@ -1,6 +1,6 @@
 //package com.mascotin.salesapplication.actions;
 //
-//import com.mascotin.salesapplication.catalogue.*;
+//import com.mascotin.salesapplication.model.catalogue.*;
 //import com.mascotin.salesapplication.model.*;
 //import org.openxava.actions.*;
 //import org.openxava.jpa.XPersistence;

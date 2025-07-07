@@ -1,6 +1,7 @@
 package com.mascotin.salesapplication.model;
 
-import com.mascotin.salesapplication.catalogue.*;
+import com.mascotin.salesapplication.calculator.DefaultZeroCalculator;
+import com.mascotin.salesapplication.model.catalogue.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -13,23 +14,28 @@ import java.math.BigDecimal;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-@SuppressWarnings({"PMD.CyclomaticComplexity"})
-public class Producto {
-    @Id
-    @Column(length = 10)
+@SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.UnnecessaryAnnotationValueElement"})
+public class Product {
+
+    @Id @Hidden
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productId;
+
+    @Column(length = 20, unique = true)
     private String sku;
 
     @Required
-    private String nombre;
+    private String name;
 
     @Required
     @Money
-    private BigDecimal precioVenta;
+    private BigDecimal sellPrice;
 
     @Required
     @DecimalMin(value = "0.00", inclusive = true)
     @DecimalMax("1.00")
-    private BigDecimal descuento;
+    @DefaultValueCalculator(value = DefaultZeroCalculator.class)
+    private BigDecimal sellDiscount;
 
     @Required
     @Money
@@ -37,27 +43,27 @@ public class Producto {
 
     @Required
     @Enumerated(EnumType.STRING)
-    private Fabricante fabricante;
+    private ProductManufacturer manufacturer;
 
     @Required
     @Enumerated(EnumType.STRING)
-    private Marca marca;
+    private ProductBrand productBrand;
 
     @Required
     @Enumerated(EnumType.STRING)
-    private Categoria categoria;
+    private ProductCategory category;
 
     @Required
     @Enumerated(EnumType.STRING)
-    private Especie especie;
+    private PetSpecie petSpecie;
 
     @Required
     @Enumerated(EnumType.STRING)
-    private Edad edad;
+    private PetAge petAge;
 
     @Required
     @Enumerated(EnumType.STRING)
-    private Raza raza;
+    private PetBreed petBreed;
 
     @Required
     private int stock;
@@ -65,7 +71,7 @@ public class Producto {
     @PrePersist
     @PreUpdate
     private void validate() {
-        if (precioVenta == null || precioVenta.compareTo(BigDecimal.ZERO) <= 0) {
+        if (sellPrice == null || sellPrice.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ValidationException("El precio debe ser mayor a 0");
         }
 
@@ -73,7 +79,7 @@ public class Producto {
             throw new ValidationException("El costo de compra debe ser mayor a 0");
         }
 
-        if (descuento == null || descuento.compareTo(BigDecimal.ZERO) < 0 || descuento.compareTo(BigDecimal.ONE) > 0) {
+        if (sellDiscount == null || sellDiscount.compareTo(BigDecimal.ZERO) < 0 || sellDiscount.compareTo(BigDecimal.ONE) > 0) {
             throw new ValidationException("El descuento debe estar entre 0.00 y 1.00");
         }
     }

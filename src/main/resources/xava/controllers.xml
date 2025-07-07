@@ -33,9 +33,56 @@ https://github.com/openxava/openxava/blob/master/openxavatest/src/main/resources
 	</controller>    
     -->
 
-    <controller name="Carrito">
-        <action name="Carrito.finalizarCompra"
-                class="com.mascotin.salesapplication.actions.FinalizarCompraAction"
-                mode="detail"/>
+    <controller name="ReadOnlyController">
+
+        <!-- Ver lista -->
+        <action name="list"
+                mode="detail"
+                class="org.openxava.actions.GoListAction"/>
+
+    </controller>
+
+
+    <controller name="EditOnlyController">
+
+        <!-- Guardar cambios -->
+        <action name="save"
+                mode="detail"
+                class="org.openxava.actions.SaveAction"/>
+
+        <!-- Cancelar cambios -->
+        <action name="cancel"
+                mode="detail"
+                class="org.openxava.actions.CancelAction"/>
+
+        <!-- Ver lista -->
+        <action name="list"
+                mode="detail"
+                class="org.openxava.actions.GoListAction"/>
+
+    </controller>
+
+    <controller name="CreateOnlyController">
+
+        <!-- Crear nuevo registro -->
+        <action name="new"
+                mode="list"
+                class="org.openxava.actions.NewAction"/>
+
+        <!-- Guardar el nuevo registro -->
+        <action name="save"
+                mode="detail"
+                class="org.openxava.actions.SaveAction"/>
+
+        <!-- Cancelar creación -->
+        <action name="cancel"
+                mode="detail"
+                class="org.openxava.actions.CancelAction"/>
+
+        <!-- Ver lista -->
+        <action name="list"
+                mode="detail"
+                class="org.openxava.actions.GoListAction"/>
+
     </controller>
 </controllers>

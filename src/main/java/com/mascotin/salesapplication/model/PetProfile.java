@@ -1,6 +1,6 @@
 package com.mascotin.salesapplication.model;
 
-import com.mascotin.salesapplication.catalogue.*;
+import com.mascotin.salesapplication.model.catalogue.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,25 +10,28 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class PerfilMascota {
-    @Id @GeneratedValue
-    private Long id;
+public class PetProfile {
+
+    @Id @Hidden
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long petProfileId;
 
     @Required
-    private String nombre;
-
-    @Required
-    @Enumerated(EnumType.STRING)
-    private Especie especie;
+    private String name;
 
     @Required
     @Enumerated(EnumType.STRING)
-    private Raza raza;
+    private PetSpecie petSpecie;
 
     @Required
     @Enumerated(EnumType.STRING)
-    private Edad edad;
+    private PetBreed petBreed;
 
-    @File
-    private byte[] foto;
+    @Required
+    @Enumerated(EnumType.STRING)
+    private PetAge petAge;
+
+    @Files
+    @Column(length=32)
+    private String image;
 }
