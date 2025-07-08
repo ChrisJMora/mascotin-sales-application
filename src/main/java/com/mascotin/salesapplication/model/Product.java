@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-@SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.UnnecessaryAnnotationValueElement"})
+@SuppressWarnings({"PMD.CyclomaticComplexity"})
 public class Product {
 
     @Id @Hidden
@@ -22,23 +22,28 @@ public class Product {
     private Long productId;
 
     @Column(length = 20, unique = true)
+    @Required
     private String sku;
 
+    @Column(length = 50)
     @Required
     private String name;
 
     @Required
-    @Money
+    @Stereotype("MONEY")
+    @DecimalMin("0")
+    @DefaultValueCalculator(DefaultZeroCalculator.class)
     private BigDecimal sellPrice;
 
-    @Required
-    @DecimalMin(value = "0.00", inclusive = true)
-    @DecimalMax("1.00")
-    @DefaultValueCalculator(value = DefaultZeroCalculator.class)
+    @DecimalMin("0")
+    @DecimalMax("1")
+    @DefaultValueCalculator(DefaultZeroCalculator.class)
     private BigDecimal sellDiscount;
 
     @Required
-    @Money
+    @Stereotype("MONEY")
+    @DecimalMin("0")
+    @DefaultValueCalculator(DefaultZeroCalculator.class)
     private BigDecimal costoCompra;
 
     @Required
@@ -66,6 +71,9 @@ public class Product {
     private PetBreed petBreed;
 
     @Required
+    @DecimalMin("0")
+    @DecimalMax("5000")
+    @DefaultValueCalculator(DefaultZeroCalculator.class)
     private int stock;
 
     @PrePersist

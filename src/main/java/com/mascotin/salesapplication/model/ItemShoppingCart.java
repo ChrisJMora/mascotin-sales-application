@@ -12,7 +12,7 @@ import java.math.RoundingMode;
 @Embeddable
 @Getter @Setter
 @NoArgsConstructor
-@SuppressWarnings({"PMD.UnnecessaryAnnotationValueElement", "PMD.LawOfDemeter"})
+@SuppressWarnings({"PMD.LawOfDemeter"})
 public class ItemShoppingCart {
 
     @Required
@@ -20,7 +20,7 @@ public class ItemShoppingCart {
     private Product product;
 
     @Required
-    @DefaultValueCalculator(value = DefaultZeroCalculator.class)
+    @DefaultValueCalculator(DefaultZeroCalculator.class)
     private int amount;
 
     @ReadOnly

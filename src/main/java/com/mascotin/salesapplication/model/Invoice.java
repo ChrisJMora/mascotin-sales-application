@@ -1,5 +1,6 @@
 package com.mascotin.salesapplication.model;
 
+import com.mascotin.salesapplication.calculator.CurrentLocalDateCalculator;
 import com.mascotin.salesapplication.model.catalogue.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import org.openxava.jpa.XPersistence;
 
 import javax.persistence.*;
 import javax.validation.ValidationException;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,6 +25,9 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long invoiceId;
 
+    @Required
+    @FutureOrPresent
+    @DefaultValueCalculator(CurrentLocalDateCalculator.class)
     private LocalDate purchaseDate;
 
     @Enumerated(EnumType.STRING)
@@ -33,6 +39,7 @@ public class Invoice {
     private String payData;
 
     @ElementCollection
+    @Size(min = 1, message = "El carrito de compras debe tener al menos un producto.")
     @ListProperties("product.sku, product.name, amount, subtotal")
     private List<ItemShoppingCart> shoppingCart;
 

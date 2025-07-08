@@ -1,0 +1,131 @@
+@startuml SalesApplication Class Diagram
+
+!define LIGHTBLUE #E1F5FE
+!define LIGHTGREEN #E8F5E8
+!define LIGHTYELLOW #FFF8E1
+!define LIGHTPINK #FCE4EC
+
+package "com.mascotin.salesapplication.model" {
+    
+    class Product <<Entity>> LIGHTBLUE {
+        - productId: Long {id}
+        - sku: String {unique}
+        - name: String {required}
+        - sellPrice: BigDecimal {required, money}
+        - sellDiscount: BigDecimal {required}
+        - costoCompra: BigDecimal {required, money}
+        - manufacturer: ProductManufacturer {required}
+        - productBrand: ProductBrand {required}
+        - category: ProductCategory {required}
+        - petSpecie: PetSpecie {required}
+        - petAge: PetAge {required}
+        - petBreed: PetBreed {required}
+        - stock: int {required}
+        --
+        - validate(): void {PrePersist, PreUpdate}
+    }
+    
+    class PetProfile <<Entity>> LIGHTBLUE {
+        - petProfileId: Long {id}
+        - name: String {required}
+        - petSpecie: PetSpecie {required}
+        - petBreed: PetBreed {required}
+        - petAge: PetAge {required}
+        - image: String
+    }
+    
+    class ItemShoppingCart <<Embeddable>> LIGHTGREEN {
+        - product: Product {required, OneToOne}
+        - amount: int {required}
+        --
+        + getSubtotal(): BigDecimal {ReadOnly, Money}
+    }
+    
+    class Invoice <<Entity>> LIGHTBLUE {
+        - invoiceId: Long {id}
+        - purchaseDate: LocalDate
+        - payMethod: MetodoPago
+        - nameHolder: String {required}
+        - payData: String
+        - shoppingCart: List<ItemShoppingCart> {ElementCollection}
+        --
+        - updateProductStock(): void {PrePersist, PreUpdate}
+    }
+}
+
+package "com.mascotin.salesapplication.model.catalogue" {
+    
+    enum ProductManufacturer LIGHTYELLOW {
+        SOLDIS
+        EQUADIS
+        DISASVET
+        PORTALVET
+    }
+    
+    enum ProductCategory LIGHTYELLOW {
+        ALIMENTO
+        ACCESORIO
+        INSUMO_VETERINARIO
+    }
+    
+    enum ProductBrand LIGHTYELLOW {
+        PRONACA
+        AGRIPAC
+        BIOALIMENTAR
+        ALBEX
+    }
+    
+    enum PetSpecie LIGHTYELLOW {
+        PERRO
+        GATO
+        AVE
+        TODAS
+    }
+    
+    enum PetBreed LIGHTYELLOW {
+        PEQUENIA
+        MEDIANA
+        GRANDE
+        TODAS
+    }
+    
+    enum PetAge LIGHTYELLOW {
+        CACHORRO
+        ADULTO
+        TODAS
+    }
+    
+    enum MetodoPago LIGHTYELLOW {
+        TARJETA
+        TRANSFERENCIA
+    }
+}
+
+' Relaciones entre clases principales
+Product ||--|| ProductManufacturer : manufacturer
+Product ||--|| ProductBrand : productBrand
+Product ||--|| ProductCategory : category
+Product ||--|| PetSpecie : petSpecie
+Product ||--|| PetAge : petAge
+Product ||--|| PetBreed : petBreed
+
+PetProfile ||--|| PetSpecie : petSpecie
+PetProfile ||--|| PetBreed : petBreed
+PetProfile ||--|| PetAge : petAge
+
+ItemShoppingCart ||--|| Product : product
+
+Invoice ||--o{ ItemShoppingCart : shoppingCart
+Invoice ||--|| MetodoPago : payMethod
+
+note top of Product : "Entidad principal que representa\nun producto en el sistema de ventas.\nIncluye validaciones de negocio."
+
+note top of Invoice : "Entidad que representa una factura.\nManeja la lógica de actualización\nde stock automáticamente."
+
+note top of ItemShoppingCart : "Clase embebida que representa\nun item en el carrito de compras.\nCalcula subtotal automáticamente."
+
+note top of PetProfile : "Perfil de mascota con\ninformación básica y foto."
+
+note right of ProductManufacturer : "Enumeraciones que definen\nlos catálogos del sistema"
+
+@enduml
